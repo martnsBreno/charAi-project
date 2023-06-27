@@ -21,47 +21,63 @@ public class CharAiService {
     @ConfigProperty(name = "API_KEY")
     private String API_SECRET;
 
-    public void testarApi() {
+    @ConfigProperty(name = "AI_MODEL")
+    private String AI_MODEL;
+
+    @ConfigProperty(name = "OPENAI_API_URL")
+    private String API_URL;
+
+    public void prepararRequisicaoAi() {
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost(API_URL);
+
+        request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + API_SECRET);
+        request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+
+        realizarRequisicaoAi(request, httpClient);
+        
+    }
+    
+    private void realizarRequisicaoAi(HttpPost request, HttpClient httpClient) {
 
         try {
-
-            ObjectMapper mapper = new ObjectMapper();
-            ObjectNode rootNode = mapper.createObjectNode();
-
-            ObjectNode systemNode = mapper.createObjectNode();
-            systemNode.put("role", "system");
-            systemNode.put("content", "You are Luffy from One Piece");
-
-            ObjectNode userNode = mapper.createObjectNode();
-            userNode.put("role", "user");
-            userNode.put("content", "Whats your dream? What do you think about Zoro?");
-
-            rootNode.set("model", mapper.valueToTree("gpt-3.5-turbo"));
-            rootNode.set("messages", mapper.valueToTree(new ObjectNode[] { systemNode, userNode }));
-
-            String jsonString = rootNode.toString();
-
-            HttpClient httpClient = HttpClientBuilder.create().build();
-
-            String apiUrl = "https://api.openai.com/v1/chat/completions";
-
-            HttpPost request = new HttpPost(apiUrl);
-
-            request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + API_SECRET);
-            request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-
-            StringEntity params = new StringEntity(jsonString);
+            StringEntity params = new StringEntity(prepararJsonRequisicao());
+            
             request.setEntity(params);
-
+    
             HttpResponse response = httpClient.execute(request);
 
             HttpEntity entity = response.getEntity();
 
-            String responseBody = EntityUtils.toString(entity);
+            String reponseBody = EntityUtils.toString(entity);
 
-            System.out.println(responseBody);
+            System.out.println(reponseBody);
+            
         } catch (Exception e) {
-            e.printStackTrace();
+            // TODO: handle exception
         }
+
+    }
+
+    private String prepararJsonRequisicao() {
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
+
+        ObjectNode systemNode = mapper.createObjectNode();
+        systemNode.put("role", "system");
+        systemNode.put("content", "You are Luffy from One Piece");
+
+        ObjectNode userNode = mapper.createObjectNode();
+        userNode.put("role", "user");
+        userNode.put("content", "Hello!");
+
+        rootNode.set("model", mapper.valueToTree(AI_MODEL));
+        rootNode.set("messages", mapper.valueToTree(new ObjectNode[] { systemNode, userNode }));
+
+        return rootNode.toString();
+
     }
 }

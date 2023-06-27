@@ -18,7 +18,7 @@ public class GreetingResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
 
-        charAiService.testarApi();
+        charAiService.prepararRequisicaoAi();
         return "Hello from RESTEasy Reactive";
 
     }
