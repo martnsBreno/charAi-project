@@ -17,5 +17,15 @@ public class UserPromptDto {
     public String getUserRole() {
         return userRole;
     }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    
     
 }

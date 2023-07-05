@@ -14,5 +14,9 @@ public class ExceptionDto {
         this.mensagemDeErro = mensagemDeErro;
     }
 
+    public String getMensagemDeErro() {
+        return mensagemDeErro;
+    }
+
     
 }
