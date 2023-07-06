@@ -6,7 +6,7 @@ Essa versão é apenas um snapshot, então outras features além da funcionalida
 
 Para consumir a API de maneira correta basta fazer uma requisição para o endpoint /call, passando um JSON com a mensagem do usuário, da seguinte forma:
 
-![resposta-ai](assets/images/aiResponse.png)
+![resposta-ai](/src/main/assets/images/aiResponse.png)
 
 Até o presente momento, a IA utilizada no projeto é GPT-3.5-TURBO
 
