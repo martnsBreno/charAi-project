@@ -8,13 +8,11 @@ import org.martns.dto.UserPromptDto;
 import org.martns.exception.MuitasRequisicoesException;
 import org.martns.exception.SemAutorizacaoException;
 import org.martns.service.AiCallService;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,17 +23,21 @@ import jakarta.ws.rs.core.Response;
 @QuarkusTest
 public class AiControllerTest {
 
-    @Mock
     private AiCallService aiCallServiceMock;
 
-    @InjectMocks
     private AiController aiController;
 
     UserPromptDto userPromptDto;
 
     @BeforeEach
     void init() {
-        MockitoAnnotations.openMocks(this);
+
+        aiCallServiceMock = mock(AiCallService.class);
+
+        aiController = new AiController();
+
+        aiController.aiCallService = aiCallServiceMock;
+
         userPromptDto = new UserPromptDto();
     }
 

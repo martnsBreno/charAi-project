@@ -11,26 +11,30 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/test")
+@Path("/call")
 @ApplicationScoped
 public class AiController {
 
     @Inject
     AiCallService aiCallService;
 
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response consumeAi(UserPromptDto userPromptDto) throws JsonProcessingException {
+
+        System.out.println(userPromptDto.getUserMessage());
 
         try {
 
             UserBackResponseDto responseUser = aiCallService.realizarChamada(userPromptDto);
+
+            System.out.println(responseUser.getMessageAi());
 
             return Response.ok().entity(responseUser).build();
 

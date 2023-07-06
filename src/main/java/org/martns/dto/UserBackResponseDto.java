@@ -18,5 +18,14 @@ public class UserBackResponseDto {
         this.messageAi = messageAi;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public String getMessageAi() {
+        return messageAi;
+    }
+
+    
     
 }
